@@ -12,7 +12,7 @@ coins = {
 }
 
 
-def add_remove_coins():
+def add_remove_coins(): #Tells user how many coins to add/ remove if weight is mismatched
     if weight < coins[coin_type][2]:
         bag_weight = coins[coin_type][2]
         difference = bag_weight - weight
@@ -26,15 +26,38 @@ def add_remove_coins():
         coins_remove = difference / coins[coin_type][3]
         print(f"remove {coins_remove} coins")
 
+#reading text file, storing in dict
+try:
+    f = open("CoinCount.txt", "r")
+    lines = f.readlines()
+    f.close()
+    print(lines)
+    names = {
+        #name: [bags checked, value, accuracy]
+        }
 
-again = input("do you want to input coins [1] or view list [2]: ")    
+    for line in lines:
+        parts = line.strip("\n").split(",")   
+        names[parts[0]] = [parts[1].strip(), parts[2].strip(), parts[3].strip()]
 
-while again == "1":  
+
+    print(names)
+except:
+    f = open("CoinCount.txt", "w")
+    f.close()
+    names = {
+        #name: [bags checked, value, accuracy]
+        }
+
+
+choice = input("do you want to input coins [1] or view list [2]: ")    
+
+while choice == "1": #input coins and weight 
     bags_checked = 0
 
     print(f"Valid coins: {valid_coins}")
 
-    name = input("Enter name: ").title()
+    volunteer = input("Enter name: ").title()
     coin_type = input("Enter type of coin: ")
 
     while coin_type not in valid_coins:
@@ -55,27 +78,20 @@ while again == "1":
 
     bags_checked += 1
 
-    f = open("CoinCount.txt", "r")
-    lines = f.readlines()
-    f.close()
-    print(lines)
+    if volunteer in names: 
+        names[volunteer][0] = int(names[volunteer][0]) + bags_checked
+
+        f = open("CoinCoint.txt", "w")
+        for name in names:
+            f.write(f"{name}, {names[name][0]}, {names[name][1]}, {names[name][2]}\n")
+
+        f.close()
+
+    choice = input("do you want to input coins [1] or view list [2]: ") 
+
+
 
     
+    
     #Store txt data in list of dictionary, edit it during program, use "w" at end of program to overwrite txt file woth new data (doesn't work yet)
-    '''
-    for line in lines:
-        parts = line.strip("\n").split(",")
-        if name in parts:
-           print("line", line)
-           
-           f = open("CoinCount.txt", "a")
-           f.write(f"{name},{bags_checked + int(parts[1])}\n")
-           f.close()
-           new_user = False
-
-    f = open("CoinCount.txt", "a")
-
-    if new_user != False:
-        f.write(f"{name},{bags_checked}\n")
-        f.close()
-    '''
+  
