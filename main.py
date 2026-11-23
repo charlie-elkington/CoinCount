@@ -17,7 +17,7 @@ def add_remove_coins():
         bag_weight = coins[coin_type][2]
         difference = bag_weight - weight
 
-        coins_add = difference // coins[coin_type][3]
+        coins_add = difference / coins[coin_type][3]
         print(f"add {coins_add} coins")
     else:
         bag_weight = coins[coin_type][2]
@@ -27,24 +27,55 @@ def add_remove_coins():
         print(f"remove {coins_remove} coins")
 
 
+again = input("do you want to input coins [1] or view list [2]: ")    
 
-print(f"Valid coins: {valid_coins}")
+while again == "1":  
+    bags_checked = 0
 
-name = input("Enter name: ").title()
-coin_type = input("Enter type of coin: ")
+    print(f"Valid coins: {valid_coins}")
 
-while coin_type not in valid_coins:
+    name = input("Enter name: ").title()
     coin_type = input("Enter type of coin: ")
 
-while True: #weight validation
-    try:
-        weight = float(input("Enter weight of bag in grams: "))
-        break
-    except:
-        print("Not a valid float")
+    while coin_type not in valid_coins:
+        coin_type = input("Enter type of coin: ")
+
+    while True: #weight validation
+        try:
+            weight = float(input("Enter weight of bag in grams: "))
+            break
+        except:
+            print("Not a valid float")
 
 
-if weight == coins[coin_type][2]:
-    print("Correct number of coins")
-else:
-    add_remove_coins()
+    if weight == coins[coin_type][2]:
+        print("Correct number of coins")
+    else:
+        add_remove_coins()
+
+    bags_checked += 1
+
+    f = open("CoinCount.txt", "r")
+    lines = f.readlines()
+    f.close()
+    print(lines)
+
+    
+    #Store txt data in list of dictionary, edit it during program, use "w" at end of program to overwrite txt file woth new data (doesn't work yet)
+    '''
+    for line in lines:
+        parts = line.strip("\n").split(",")
+        if name in parts:
+           print("line", line)
+           
+           f = open("CoinCount.txt", "a")
+           f.write(f"{name},{bags_checked + int(parts[1])}\n")
+           f.close()
+           new_user = False
+
+    f = open("CoinCount.txt", "a")
+
+    if new_user != False:
+        f.write(f"{name},{bags_checked}\n")
+        f.close()
+    '''
