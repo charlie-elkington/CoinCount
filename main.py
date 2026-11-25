@@ -83,8 +83,11 @@ if choice == "1": #input coins and weight
 
     if volunteer in names: 
         names[volunteer][0] = int(names[volunteer][0]) + bags_checked
-        names[volunteer][1] = float((names[volunteer][2])) + coins[coin_type][1]
-        names[volunteer][3] = ((incorrect_bags + int(names[volunteer][1])) / (names[volunteer][0] + bags_checked))
+        names[volunteer][1] = int(names[volunteer][1]) + incorrect_bags
+        names[volunteer][2] = float((names[volunteer][2])) + coins[coin_type][1]
+        print(incorrect_bags + int(names[volunteer][1]))
+        print(names[volunteer][0] + bags_checked)
+        names[volunteer][3] = ((names[volunteer][0] - names[volunteer][1]) / names[volunteer][0]) * 100
         
 
         print(names)
@@ -100,7 +103,7 @@ if choice == "1": #input coins and weight
 
 elif choice == "2":
     print(f"\n{"-" * 10}\nVolunteers\n{"-" * 10}\n")
-    print("Name, Bags checked, Incorrect bags, Accuracy")
+    print("Name, Bags checked, Incorrect bags, Total bag value, Accuracy")
     for name in names:
         print(f"{name}, {names[name][0]}, {names[name][1]}, £{names[name][2]}, {names[name][3]}%")
 
