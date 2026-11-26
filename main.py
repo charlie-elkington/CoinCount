@@ -51,63 +51,71 @@ except:
         }
 
 
-choice = input("do you want to input coins [1] or view list [2]: ")    
+choice = input("do you want to input coins [1], view list [2] or stop [3]: ")    
+repeat = True
 
-if choice == "1": #input coins and weight 
-    bags_checked = 0
-    incorrect_bags = 0
+if choice == "3":
+    repeat = False
 
-    print(f"Valid coins: {valid_coins}")
+while repeat == True:
+    if choice == "1": #input coins and weight 
+        bags_checked = 0
+        incorrect_bags = 0
 
-    volunteer = input("Enter name: ").title()
-    coin_type = input("Enter type of coin: ")
+        print(f"Valid coins: {valid_coins}")
 
-    while coin_type not in valid_coins:
+        volunteer = input("Enter name: ").title()
         coin_type = input("Enter type of coin: ")
 
-    while True: #weight validation
-        try:
-            weight = float(input("Enter weight of bag in grams: "))
-            break
-        except:
-            print("Not a valid float")
+        while coin_type not in valid_coins:
+            print("Not a valid coin.")
+            coin_type = input("Enter type of coin: ")
+
+        while True: #weight validation
+            try:
+                weight = float(input("Enter weight of bag in grams: "))
+                break
+            except:
+                print("Not a valid float")
 
 
-    if weight == coins[coin_type][2]:
-        print("Correct number of coins")
-    else:
-        incorrect_bags = 1
-        add_remove_coins()
+        if weight == coins[coin_type][2]:
+            print("Correct number of coins")
+        else:
+            incorrect_bags = 1
+            add_remove_coins()
 
-    bags_checked += 1
+        bags_checked += 1
 
-    if volunteer in names: 
-        names[volunteer][0] = int(names[volunteer][0]) + bags_checked
-        names[volunteer][1] = int(names[volunteer][1]) + incorrect_bags
-        names[volunteer][2] = float((names[volunteer][2])) + coins[coin_type][1]
-        print(incorrect_bags + int(names[volunteer][1]))
-        print(names[volunteer][0] + bags_checked)
-        names[volunteer][3] = ((names[volunteer][0] - names[volunteer][1]) / names[volunteer][0]) * 100
-        
+        if volunteer in names: 
+            names[volunteer][0] = int(names[volunteer][0]) + bags_checked
+            names[volunteer][1] = int(names[volunteer][1]) + incorrect_bags
+            names[volunteer][2] = float((names[volunteer][2])) + coins[coin_type][1]
+            print(incorrect_bags + int(names[volunteer][1]))
+            print(names[volunteer][0] + bags_checked)
+            names[volunteer][3] = ((names[volunteer][0] - names[volunteer][1]) / names[volunteer][0]) * 100
+            
 
-        print(names)
+            print(names)
 
-        f = open("CoinCount.txt", "w")
+            f = open("CoinCount.txt", "w")
+            for name in names:
+                f.write(f"{name}, {names[name][0]}, {names[name][1]}, {names[name][2]}, {names[name][3]}\n")
+
+            f.close()
+
+        choice = input("do you want to input coins [1], view list [2] or stop [3]: ") 
+
+
+    elif choice == "2":
+        print(f"\n{"-" * 10}\nVolunteers\n{"-" * 10}\n")
+        print("Name, Bags checked, Incorrect bags, Total bag value, Accuracy")
         for name in names:
-            f.write(f"{name}, {names[name][0]}, {names[name][1]}, {names[name][2]}, {names[name][3]}\n")
+            print(f"{name}, {names[name][0]}, {names[name][1]}, £{names[name][2]}, {names[name][3]}%")
 
-        f.close()
-
-    choice = input("do you want to input coins [1] or view list [2]: ") 
-
-
-elif choice == "2":
-    print(f"\n{"-" * 10}\nVolunteers\n{"-" * 10}\n")
-    print("Name, Bags checked, Incorrect bags, Total bag value, Accuracy")
-    for name in names:
-        print(f"{name}, {names[name][0]}, {names[name][1]}, £{names[name][2]}, {names[name][3]}%")
-
-    
-    
-    #Store txt data in list of dictionary, edit it during program, use "w" at end of program to overwrite txt file woth new data (doesn't work yet)
+        choice = input("do you want to input coins [1], view list [2] or stop [3]: ") 
+        
+        
+    if choice == "3":
+        repeat = False
   
